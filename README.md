@@ -14,7 +14,7 @@ The idea is simple: if only 500 MB changed, why should users download 40 GB agai
 
 Manverup is an open-source Python tool that enables incremental updates for projects composed of independent files, modules, services, or assets.
 
-Instead of forcing users to download an entire application, package, or game every time an update is released, Manverup compares local and remote manifests and downloads only the files whose version has increased.
+Instead of forcing users to download an entire application, package, or game every time an update is released, Manverup compares local and remote manifests and downloads only the files with higher version numbers.
 ## Why?
 Many applications distribute updates as large monolithic packages. Even when only a few files have changed, users may be required to download gigabytes of data again.
 
@@ -107,7 +107,3 @@ Manverup is an attempt to provide a simple, open-source, and reusable implementa
 **only transfer what actually changed.**
 ## Status
 Early development.
-## Inspiration
-The project was inspired by the idea that software updates should transfer only the data that actually changed.
-
-Modern package managers and version control systems already rely on similar principles. Manverup applies the same philosophy to general-purpose project deployment and asset distribution.
