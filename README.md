@@ -1,7 +1,7 @@
 # 2copyOrNot2copy
-open source script to check versions of scripts and assets in a project and copies just what's necessary to update instead of updating the whole thing in a single stack
+open source script to check versions of scripts and assets (chunks) in a project and copies just what's necessary to update instead of updating the whole thing as a single package
 
-With this script, I intend to put out there available to all something to help avoid infinite >3GB downloads for programs (but I thought mainly about games) that have added some very little new stuff <1GB but need you to download the full >3GB program for it to be updated.
+With this script, I intend to put out there available to all something to help avoid infinite >3GB downloads (yes, I have a 20MB/s max download speed) for programs (but I thought mainly about games) that have added some very little new stuff <1GB but need you to download the full >3GB program for it to be updated.
 
 Mainly, I thought about what thing games like War Thunder and Destiny 2 did wrong, and how could World of Tanks be so much better in their updating pipelines.
 This is what I thought of:
@@ -18,6 +18,6 @@ So the functioning pipeline would be something like:
 - Start the updater: check with the remote version in the main server to see if there are any higher versions of elements and/or new elements than those in the local index
   - if there are bigger versions, download and/or change just the updated modules, and leave the rest alone untouched.
 
-Basically, this is how pip and git work at a high level, but the companies with these games don't seem to value the cost in time (downloading the updates) and memory occupation (because usually unupdated_game + update_of_full_game >= unupdated_game * 2) they inflict on their players.
+Basically, this is how pip and git work at a high level, but the companies with those games mentioned don't seem to value the cost in time (downloading the updates) and memory occupation (because usually unupdated_game + update_of_full_game >= unupdated_game * 2) they inflict on their players.
 
-Of course, this needs a proper previous planification of the architecture of the game, where to put interfaces and what element has access to what other interfaces, but the potential gains are very big, even in development times, especially nowadays with AI vibe coding, where you usually can't compare your old versions with the new versions.
+Of course, this needs a proper previous planification of the chunking the architecture of the game, where to put interfaces and what element has access to what other interfaces, but the potential gains are very big, even in development times, especially nowadays with AI vibe coding, where you usually can't compare your old versions with the new versions.
