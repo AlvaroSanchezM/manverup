@@ -1,23 +1,113 @@
-# 2copyOrNot2copy
-open source script to check versions of scripts and assets (chunks) in a project and copies just what's necessary to update instead of updating the whole thing as a single package
+# manverup
 
-With this script, I intend to put out there available to all something to help avoid infinite >3GB downloads (yes, I have a 20MB/s max download speed) for programs (but I thought mainly about games) that have added some very little new stuff <1GB but need you to download the full >3GB program for it to be updated.
+**Man**ifest-based **Ver**sioned **Up**dates.
 
-Mainly, I thought about what thing games like War Thunder and Destiny 2 did wrong, and how could World of Tanks be so much better in their updating pipelines.
-This is what I thought of:
-  War Thunder and Destiny 2 are huge packages that cannot be separated from other dependencies and most of anything is just a jumble of connections, with just one or two places where there are very clear interfaces or internal APIs, while WOT have their code divided enough that they just need to download all their updated stuff in 1 or 2 GB and they just need to replace each necessary microservice with the updated version.
+> Downloaded 40 GB.
+>
+> Waited an hour.
+>
+> The game/program/app ended up being almost the same size as before with just a few bug fixes.
 
-So this is a python implementation of exactly that idea.
+That experience inspired Manverup.
 
-For the idea to work, the project must be clearly divided in chunks or microservices, where each microservice has clearly defined limits.
-There are four types of elements: the index, the interfaces, the microservices and other assets.
-All elements that are not the index, have an ID belonging to them and only to them, and this ID has two parts: an element identifier and a version number.
-The index will have inside all the available IDs.
+The idea is simple: if only 500 MB changed, why should users download 40 GB again?
 
-So the functioning pipeline would be something like: 
-- Start the updater: check with the remote version in the main server to see if there are any higher versions of elements and/or new elements than those in the local index
-  - if there are bigger versions, download and/or change just the updated modules, and leave the rest alone untouched.
+Manverup is an open-source Python tool that enables incremental updates for projects composed of independent files, modules, services, or assets.
 
-Basically, this is how pip and git work at a high level, but the companies with those games mentioned don't seem to value the cost in time (downloading the updates) and memory occupation (because usually unupdated_game + update_of_full_game >= unupdated_game * 2) they inflict on their players.
+Instead of forcing users to download an entire application, package, or game every time an update is released, Manverup compares local and remote manifests and downloads only the files whose version has increased.
+## Why?
+Many applications distribute updates as large monolithic packages. Even when only a few files have changed, users may be required to download gigabytes of data again.
 
-Of course, this needs a proper previous planification of the chunking the architecture of the game, where to put interfaces and what element has access to what other interfaces, but the potential gains are very big, even in development times, especially nowadays with AI vibe coding, where you usually can't compare your old versions with the new versions.
+Manverup follows a different approach:
+
+- Every file or module has a unique identifier.
+- Every file or module has a version number.
+- A manifest contains the list of all available elements and their versions.
+- During an update, local and remote manifests are compared.
+- Only elements whose version is newer on the remote side are downloaded.
+
+This reduces:
+
+- Download size
+- Update time
+- Bandwidth usage
+- Temporary storage requirements
+## How it works
+A project is divided into independently updatable elements.
+
+Each element contains:
+
+- Unique identifier
+- Version number
+
+The manifest contains all available elements and their latest versions.
+
+Update flow:
+
+1. Load the local manifest.
+2. Download the remote manifest.
+3. Compare versions.
+4. Identify elements with newer remote versions.
+5. Download only those elements.
+6. Replace outdated local files.
+
+```text
+Local manifest        Remote manifest
+--------------        ---------------
+core v1               core v2
+ui v3                 ui v3
+audio v4              audio v5
+
+Download:
+- core v2
+- audio v5
+
+Skip:
+- ui v3
+```
+## Goals
+- Simple manifest format
+- Version-based updates
+- Minimal downloads
+- Server-agnostic design
+- Easy integration into existing projects
+- Language-independent update targets
+## Architecture requirements
+Manverup works best when the application is organized into clearly separated modules, services, or asset packs.
+
+The more independent the components are, the smaller and more efficient the updates become.
+
+Examples:
+
+- Games with separate asset packs
+- Plugins and extensions
+- Modular applications
+- Microservice-based deployments
+- Downloadable content (DLC)
+- Large datasets divided into packages
+## Scope and Expectations
+Manverup is developed as a practical open-source project, not as a commercial-grade update platform.
+
+The goal is not to compete with mature solutions that have been refined for years, nor to claim that this implementation is the most efficient possible approach.
+
+Instead, the objective is to provide a simple and understandable framework that developers can use, improve, extend, or replace according to their needs.
+
+If someone builds a faster, safer, or more scalable alternative, that is a success for the idea itself.
+
+The project welcomes criticism, improvements, and contributions.
+## Acknowledgements
+The core idea behind Manverup is not new.
+
+Version-based updates and incremental downloads have existed for decades in tools such as package managers, version control systems, and software deployment platforms. Git, pip, and many other systems already avoid transferring data that has not changed.
+
+What inspired this project is the fact that many large software distributions still rely on update mechanisms that can feel unnecessarily heavy from the user's perspective, often requiring the download of tens of gigabytes even when only a relatively small portion of the content has changed.
+
+Manverup is an attempt to provide a simple, open-source, and reusable implementation of the same philosophy:
+
+**only transfer what actually changed.**
+## Status
+Early development.
+## Inspiration
+The project was inspired by the idea that software updates should transfer only the data that actually changed.
+
+Modern package managers and version control systems already rely on similar principles. Manverup applies the same philosophy to general-purpose project deployment and asset distribution.
